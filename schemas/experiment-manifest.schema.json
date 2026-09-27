@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ttptrace/experiment-manifest.schema.json",
+  "title": "TTPTrace experiment manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "session_type",
+    "host",
+    "window",
+    "authorization",
+    "collection",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "experiment_id": {
+      "type": "string",
+      "pattern": "^TTPT-[0-9]{8}-[A-Z0-9]{4,12}$"
+    },
+    "session_type": { "enum": ["attack", "benign"] },
+    "technique_id": {
+      "type": ["string", "null"],
+      "enum": ["T1059.001", "T1059.003", "T1082", "T1033", "T1083", "T1053.005", null]
+    },
+    "technique_name": { "type": ["string", "null"] },
+    "emulation": {
+      "type": ["object", "null"],
+      "properties": {
+        "framework": { "enum": ["atomic-red-team", "caldera"] },
+        "test_id": { "type": "string", "minLength": 1 },
+        "variant": { "type": "string", "minLength": 1 }
+      },
+      "required": ["framework", "test_id", "variant"],
+      "additionalProperties": false
+    },
+    "host": {
+      "type": "object",
+      "properties": {
+        "host_id": { "type": "string", "pattern": "^HOST-[A-Z0-9]{2,12}$" },
+        "platform": { "const": "windows" },
+        "os_version": { "type": "string", "minLength": 1 },
+        "snapshot_id": { "type": "string", "minLength": 1 }
+      },
+      "required": ["host_id", "platform", "os_version", "snapshot_id"],
+      "additionalProperties": false
+    },
+    "window": {
+      "type": "object",
+      "properties": {
+        "started_at": { "type": "string", "format": "date-time" },
+        "ended_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["started_at", "ended_at"],
+      "additionalProperties": false
+    },
+    "authorization": {
+      "type": "object",
+      "properties": {
+        "scope": { "const": "owned-isolated-lab" },
+        "approved": { "const": true },
+        "network_isolated": { "const": true }
+      },
+      "required": ["scope", "approved", "network_isolated"],
+      "additionalProperties": false
+    },
+    "collection": {
+      "type": "object",
+      "properties": {
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "contains": { "const": "sysmon" }
+        },
+        "sysmon_config_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": ["sources", "sysmon_config_sha256"],
+      "additionalProperties": false
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "event_log": { "type": "string", "minLength": 1 }
+      },
+      "required": ["event_log"],
+      "additionalProperties": false
+    },
+    "notes": { "type": "string" }
+  }
+}
+

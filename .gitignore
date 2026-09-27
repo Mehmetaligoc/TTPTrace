@@ -1,0 +1,28 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.idea/
+.vscode/
+
+# Ham telemetri, kişisel/ortama özgü bilgi içerebilir.
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Eğitilmiş modeller ve üretilen raporlar sürüm kontrolüne varsayılan olarak girmez.
+models/*
+!models/.gitkeep
+reports/generated/*
+
+# Yerel laboratuvar sırları ve ayarları.
+.env
+*.evtx
+*.pcap
+*.pcapng
+*.key
+*.pem
+

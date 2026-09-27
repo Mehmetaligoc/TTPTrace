@@ -1,0 +1,43 @@
+{
+  "catalog_version": "2026-09-27",
+  "source": "https://attack.mitre.org/techniques/enterprise/",
+  "techniques": [
+    {
+      "id": "T1059.001",
+      "name": "PowerShell",
+      "tactics": ["execution"],
+      "platforms": ["windows"]
+    },
+    {
+      "id": "T1059.003",
+      "name": "Windows Command Shell",
+      "tactics": ["execution"],
+      "platforms": ["windows"]
+    },
+    {
+      "id": "T1082",
+      "name": "System Information Discovery",
+      "tactics": ["discovery"],
+      "platforms": ["windows"]
+    },
+    {
+      "id": "T1033",
+      "name": "System Owner/User Discovery",
+      "tactics": ["discovery"],
+      "platforms": ["windows"]
+    },
+    {
+      "id": "T1083",
+      "name": "File and Directory Discovery",
+      "tactics": ["discovery"],
+      "platforms": ["windows"]
+    },
+    {
+      "id": "T1053.005",
+      "name": "Scheduled Task",
+      "tactics": ["execution", "persistence", "privilege-escalation"],
+      "platforms": ["windows"]
+    }
+  ]
+}
+

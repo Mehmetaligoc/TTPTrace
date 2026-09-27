@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.1.0",
+  "experiment_id": "TTPT-20260927-A001",
+  "session_type": "attack",
+  "technique_id": "T1082",
+  "technique_name": "System Information Discovery",
+  "emulation": {
+    "framework": "atomic-red-team",
+    "test_id": "example-guid-replace-before-collection",
+    "variant": "variant-a"
+  },
+  "host": {
+    "host_id": "HOST-WIN01",
+    "platform": "windows",
+    "os_version": "Windows 11",
+    "snapshot_id": "clean-v1"
+  },
+  "window": {
+    "started_at": "2026-09-27T10:00:00+03:00",
+    "ended_at": "2026-09-27T10:05:00+03:00"
+  },
+  "authorization": {
+    "scope": "owned-isolated-lab",
+    "approved": true,
+    "network_isolated": true
+  },
+  "collection": {
+    "sources": ["sysmon", "windows-event-log"],
+    "sysmon_config_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "artifacts": {
+    "event_log": "data/raw/TTPT-20260927-A001/events.jsonl"
+  },
+  "notes": "Şablon kaydıdır; gerçek test kimliği ve yapılandırma özetiyle değiştirilmelidir."
+}
+

@@ -50,6 +50,22 @@ Bu depo kamuya açık hedeflere yönelik otomasyon veya izinsiz test için tasar
 - temel otomatik testler,
 - 14 haftalık yol haritası.
 
+## Oturum analizi ve ağ özellikleri
+
+[01_session_analysis.ipynb](01_session_analysis.ipynb) ilk benign oturum için Colab üzerinde geliştirilen analiz akışını içerir:
+
+- JSONL okuma, SHA-256 bütünlük kontrolü ve manifest/olay kimliği doğrulaması,
+- ProcessGuid ile süreç ve ebeveyn ilişkilerinin incelenmesi,
+- ağ olaylarının oturum içi ve oturum öncesi süreç kayıtlarıyla eşleştirilmesi,
+- süreç başına hedef çeşitliliği, TCP/UDP dağılımı ve oturum süresine göre olay sıklığı,
+- JSONL çıktılarının kayıt kaybı olmadan yazılıp yeniden okunmasının kontrolü.
+
+İlk oturumda 269 olayın 194'ü ağ olayıdır. Ağ olaylarının 53'ü oturum içi, 139'u oturum öncesi süreç kayıtlarıyla eşleşir; iki olay çözümlenmemiş olarak korunur. Ağ olayı bulunan altı süreç için özellik özeti oluşturulmuştur. Bunlar veri hazırlama kontrolleridir; model başarımı ölçümü değildir. Model eğitimi ve DNS özellikleri henüz uygulanmamıştır.
+
+**Çalıştırma:** Notebook'u Colab'da açın; `events.jsonl`, `analysis-summary.json`, `manifest.json` ve `process-context.jsonl` dosyalarını `/content` altına yükleyip hücreleri sırayla çalıştırın. Bu sürümün hash değerleri ve beklenen sayıları ilk oturuma özgüdür; farklı oturumlara uyarlanmadan genel analiz aracı olarak kullanılamaz. Kamuya açık örnek telemetri henüz sağlanmamaktadır.
+
+Notebook çıktıları ve hesap/çalışma ortamı metaverileri temizlenmiştir. Ham telemetri ve üretilen JSONL dosyaları depoya dahil edilmez. Colab'daki geçici çıktıları indirerek yerel `data/processed/` altında saklayın.
+
 ## Hızlı başlangıç
 
 Python 3.12 önerilir. İlk doğrulama aracı yalnızca Python standart kütüphanesini kullanır.
@@ -83,4 +99,3 @@ py -3.12 -m venv .venv
 ## Lisans durumu
 
 Proje için henüz lisans seçilmemiştir. Kaynak kodu ve veri paylaşım koşulları; Atomic Red Team, MITRE ATT&CK, Sysmon ve kullanılan diğer bileşenlerin koşulları incelendikten sonra belirlenecektir.
-

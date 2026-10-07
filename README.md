@@ -50,19 +50,22 @@ Bu depo kamuya açık hedeflere yönelik otomasyon veya izinsiz test için tasar
 - temel otomatik testler,
 - 14 haftalık yol haritası.
 
-## Oturum analizi ve ağ özellikleri
+## Oturum analizi ve süreç özellikleri
 
 [01_session_analysis.ipynb](01_session_analysis.ipynb) ilk benign oturum için Colab üzerinde geliştirilen analiz akışını içerir:
 
 - JSONL okuma, SHA-256 bütünlük kontrolü ve manifest/olay kimliği doğrulaması,
 - ProcessGuid ile süreç ve ebeveyn ilişkilerinin incelenmesi,
-- ağ olaylarının oturum içi ve oturum öncesi süreç kayıtlarıyla eşleştirilmesi,
-- süreç başına hedef çeşitliliği, TCP/UDP dağılımı ve oturum süresine göre olay sıklığı,
+- ağ ve DNS olaylarının oturum içi veya oturum öncesi süreç kayıtlarıyla eşleştirilmesi,
+- süreç başına hedef çeşitliliği, TCP/UDP dağılımı, DNS sorgu durumları ve olay sıklığı,
+- ebeveyn-çocuk süreç ilişkilerinin ve eksik süreç bağlamının açıkça temsil edilmesi,
+- oturum doğrulama, özellik çıkarma ve JSONL çıktı üretiminin yeniden kullanılabilir fonksiyonlara ayrılması,
+- sayısal model özellikleri ile inceleme metaverilerinin ayrı pandas tablolarında hazırlanması,
 - JSONL çıktılarının kayıt kaybı olmadan yazılıp yeniden okunmasının kontrolü.
 
-İlk oturumda 269 olayın 194'ü ağ olayıdır. Ağ olaylarının 53'ü oturum içi, 139'u oturum öncesi süreç kayıtlarıyla eşleşir; iki olay çözümlenmemiş olarak korunur. Ağ olayı bulunan altı süreç için özellik özeti oluşturulmuştur. Bunlar veri hazırlama kontrolleridir; model başarımı ölçümü değildir. Model eğitimi ve DNS özellikleri henüz uygulanmamıştır.
+İlk oturumda 269 olayın 194'ü ağ, 15'i DNS olayıdır. Oturumda oluşturulan veya ağ/DNS faaliyeti gözlenen 33 süreç için genel özellik özeti üretilmiştir. Süreçlerin 23'ü oturum içi, dokuzu oturum öncesi oluşturma kayıtlarıyla eşleşmiş; `System` kaydı çözümlenmemiş olarak korunmuştur. Bağlam kayıtları çıkarıldığında gözlenen olay sayılarının ve süreç kapsamının değişmediği ayrıca doğrulanmıştır. Bunlar veri hazırlama kontrolleridir; model başarımı ölçümü değildir.
 
-**Çalıştırma:** Notebook'u Colab'da açın; `events.jsonl`, `analysis-summary.json`, `manifest.json` ve `process-context.jsonl` dosyalarını `/content` altına yükleyip hücreleri sırayla çalıştırın. Bu sürümün hash değerleri ve beklenen sayıları ilk oturuma özgüdür; farklı oturumlara uyarlanmadan genel analiz aracı olarak kullanılamaz. Kamuya açık örnek telemetri henüz sağlanmamaktadır.
+**Çalıştırma:** Notebook'u Colab'da açın; `events.jsonl`, `analysis-summary.json`, `manifest.json`, `process-context.jsonl` ve varsa `process-context-additional.jsonl` dosyalarını `/content` altına yükleyip hücreleri sırayla çalıştırın. `analyze_session_directory` fonksiyonu, hazırlanmış JSON/JSONL girdilerini klasörden okuyup doğrulanmış `process-features.jsonl` çıktısı üretir. EVTX normalizasyonu bu defterin kapsamı dışındadır. İlk bölümdeki hash değerleri ve beklenen sayılar ilk oturuma özgüdür. Kamuya açık örnek telemetri henüz sağlanmamaktadır.
 
 Notebook çıktıları ve hesap/çalışma ortamı metaverileri temizlenmiştir. Ham telemetri ve üretilen JSONL dosyaları depoya dahil edilmez. Colab'daki geçici çıktıları indirerek yerel `data/processed/` altında saklayın.
 

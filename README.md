@@ -32,7 +32,7 @@ Projenin ayırt edici değerlendirmeleri:
 | T1083 | File and Directory Discovery | Discovery |
 | T1053.005 | Scheduled Task | Execution / Persistence / Privilege Escalation |
 
-Teknik listesi veri toplama başlamadan önce danışmanla kesinleştirilecektir. Kapsam bütün ATT&CK matrisini temsil etme iddiası taşımaz.
+Kapsam bütün ATT&CK matrisini temsil etme iddiası taşımaz.
 
 ## Güvenlik sınırı
 
@@ -65,9 +65,19 @@ Bu depo kamuya açık hedeflere yönelik otomasyon veya izinsiz test için tasar
 
 İlk oturumda 269 olayın 194'ü ağ, 15'i DNS olayıdır. Oturumda oluşturulan veya ağ/DNS faaliyeti gözlenen 33 süreç için genel özellik özeti üretilmiştir. Süreçlerin 23'ü oturum içi, dokuzu oturum öncesi oluşturma kayıtlarıyla eşleşmiş; `System` kaydı çözümlenmemiş olarak korunmuştur. Bağlam kayıtları çıkarıldığında gözlenen olay sayılarının ve süreç kapsamının değişmediği ayrıca doğrulanmıştır. Bunlar veri hazırlama kontrolleridir; model başarımı ölçümü değildir.
 
-**Çalıştırma:** Notebook'u Colab'da açın; `events.jsonl`, `analysis-summary.json`, `manifest.json`, `process-context.jsonl` ve varsa `process-context-additional.jsonl` dosyalarını `/content` altına yükleyip hücreleri sırayla çalıştırın. `analyze_session_directory` fonksiyonu, hazırlanmış JSON/JSONL girdilerini klasörden okuyup doğrulanmış `process-features.jsonl` çıktısı üretir. EVTX normalizasyonu bu defterin kapsamı dışındadır. İlk bölümdeki hash değerleri ve beklenen sayılar ilk oturuma özgüdür. Kamuya açık örnek telemetri henüz sağlanmamaktadır.
+**Çalıştırma:** Notebook'u Colab'da açın; `events.jsonl`, `analysis-summary.json`, `manifest.json`, `process-context.jsonl` ve `process-context-additional.jsonl` dosyalarını `/content` altına yükleyip hücreleri sırayla çalıştırın. `analyze_session_directory` fonksiyonu, hazırlanmış JSON/JSONL girdilerini klasörden okuyup doğrulanmış `process-features.jsonl` çıktısı üretir. EVTX normalizasyonu bu defterin kapsamı dışındadır. İlk bölümdeki hash değerleri ve beklenen sayılar ilk oturuma özgüdür. Kamuya açık örnek telemetri henüz sağlanmamaktadır.
 
 Notebook çıktıları ve hesap/çalışma ortamı metaverileri temizlenmiştir. Ham telemetri ve üretilen JSONL dosyaları depoya dahil edilmez. Colab'daki geçici çıktıları indirerek yerel `data/processed/` altında saklayın.
+
+## Süreç yaşam döngüsü ve metin temsili
+
+Notebook, kontrollü komutların süreç zincirlerini ve zaman sıralı olaylarını çıkarır. İlk oturumdaki 33 sürecin sekizinde başlangıç ve bitiş, 24'ünde yalnızca başlangıç kaydı bulunur; bir System kaydında iki sınır da gözlenmez. Eksik süreler sıfıra çevrilmez. Yaşam süresi özellikleri tamamlanmış kayıtların analizine uygundur; anlık tahmin sırasında henüz bilinmeyen bitiş bilgisi kullanılamaz.
+
+İncelenen dört süreçten üçünün 14 sayısal özelliği aynıdır. Süreç adı, ebeveyn adı ve komut satırıyla hazırlanan metin temsilleri bu dört örneği ayırır; bu gözlem model başarımı veya genelleme sonucu değildir. Toplam 33 metin örneği oluşturulmuş, 32 komut satırı bulunmuştur. Metinler henüz anonimleştirilmemiştir; kimlikler ve inceleme alanları model metninin dışında tutulur.
+
+Dört süreç için beş farklı tekniği kapsayan altı aday eşleştirmesi kaynak olay ve gerekçeyle kaydedilir. Adayların tamamı `pending_review` ve `training_eligible=False` durumundadır. Oturumun `benign` bağlamı ayrı tutulur; teknikle uyumlu bir komut kötü niyet veya başarılı yürütme kanıtı sayılmaz. Etiketler bütün alt süreçlere otomatik aktarılmaz.
+
+Yeni çıktılar `prepared-data/`, `annotations/` ve `analysis-results/` altında üretilir. Ara ZIP hücreleri çalıştırıldıkları noktadaki belirli dosyaları içerir; sonraki metin girdileri ve teknik adaylarını ayrıca yedekleyin. Ham kayıtlar, üretilen özel metinler ve arşivler açık depoya eklenmez.
 
 ## Hızlı başlangıç
 
